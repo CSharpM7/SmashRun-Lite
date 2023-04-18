@@ -1,0 +1,9 @@
+display_name="SmashRun Lite"
+description="""
+Inspired by the 3DS gamemode, this converts various items into stat boosting items! Pick them up and knock out your opponents!
+Boosts: Attack (Increases Power and KB), Defense (Decreased Damage and KB received), Speed (Increases horizontal speed), Jump (Increases jump height, decreases falling speed (not during fast fall)), Turbo (Lets you cancel normal attacks sooner, decreases landing lag)
+Affected Items: Food (Various), Maximum Tomato (Random), Curry (Attack), Smoke Screen (Shield), Beetle (Jump), Banana Gun (Speed), Steel Diver (Turbo),
+"""
+version="1.0"
+category="Param"
+authors="C#"
