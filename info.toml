@@ -1,8 +1,12 @@
-display_name="SmashRun Lite"
+display_name="SmashRun Returns"
 description="""
 Inspired by the 3DS gamemode, this converts various items into stat boosting items! Pick them up and knock out your opponents!
-Boosts: Attack (Increases Power and KB), Defense (Decreased Damage and KB received), Speed (Increases horizontal speed), Jump (Increases jump height, decreases falling speed (not during fast fall)), Turbo (Lets you cancel normal attacks sooner, decreases landing lag)
-Affected Items: Food (Various), Maximum Tomato (Random), Curry (Attack), Smoke Screen (Shield), Beetle (Jump), Banana Gun (Speed), Steel Diver (Turbo),
+Boosts: Attack (Increases Power and KB), Defense (Decreased Damage and KB received), Speed (Increases horizontal speed), Jump (Increases jump height, decreases falling speed (not during fast fall)), Turbo (Lets you cancel normal attacks and throws sooner, decreases landing lag)
+Game Mode Setup:
+3 stocks, 7 minutes
+Items on High: Crates, Sandbag, Food (Various, Apple still heals), Maximum Tomato (Random), Heart Container (All), Curry (Attack), Smoke Screen (Shield), Beetle (Jump), Banana Gun (Speed), Steel Diver (Turbo)
+Random Stages (Use your region's competitive list)
+If you want, try First to Two wins, where the first stage is a large stage (like Temple), and the second should be random competitive stage. Buffs from the first round will carry over to the next round. Buffs reset upon training mode reset, or upon entering the results screen.
 """
 version="1.0"
 category="Param"

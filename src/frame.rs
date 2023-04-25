@@ -21,14 +21,14 @@ unsafe fn apply_buffs(fighter: &mut L2CFighterCommon)
         if (status != *FIGHTER_STATUS_KIND_ATTACK)
         || (motion == Hash40::new("attack_13").hash)
         {
-            AttackModule::set_power_up(fighter.module_accessor, 1.0+(lvl_attack/lvl_max));
-            AttackModule::set_reaction_mul(fighter.module_accessor, 1.0+(lvl_attack/lvl_max));
+            AttackModule::set_power_up(fighter.module_accessor, 1.0+(0.5*lvl_attack/lvl_max));
+            AttackModule::set_reaction_mul(fighter.module_accessor, 1.0+(0.5*lvl_attack/lvl_max));
         }
     }
     if lvl_def > 1.0
     {
-        DamageModule::set_damage_mul(fighter.module_accessor, 1.0-(lvl_def/lvl_max));
-        DamageModule::set_reaction_mul(fighter.module_accessor, 1.0-(lvl_def/lvl_max));
+        DamageModule::set_damage_mul(fighter.module_accessor, 1.0-(0.5*lvl_def/lvl_max));
+        DamageModule::set_reaction_mul(fighter.module_accessor, 1.0-(0.5*lvl_def/lvl_max));
         DamageModule::set_force_damage_mul(fighter.module_accessor, 1.0-(lvl_def/lvl_max)*0.5);
         ShieldModule::set_attack_mul(fighter.module_accessor, 1.0-(lvl_def/lvl_max), *FIGHTER_SHIELD_KIND_GUARD);
         ShieldModule::set_hit_stop_mul(fighter.module_accessor, 1.0-(lvl_def/lvl_max));
@@ -37,8 +37,18 @@ unsafe fn apply_buffs(fighter: &mut L2CFighterCommon)
     {
         if (status == *FIGHTER_STATUS_KIND_LANDING_ATTACK_AIR)
         {
-            let rate = 1.0+(lvl_turbo/(lvl_max));
+            let rate = 1.0+(1.5*lvl_turbo/(lvl_max));
             MotionModule::set_rate(fighter.module_accessor, rate);
+        }
+        else if (status == *FIGHTER_STATUS_KIND_THROW)
+        {
+            let mut cancelFrame = FighterMotionModuleImpl::get_cancel_frame(fighter.module_accessor,smash::phx::Hash40::new_raw(motion), false) as f32;
+            let turboReduction =(lvl_turbo*0.75);
+            if (MotionModule::frame(fighter.module_accessor) >= cancelFrame-turboReduction)
+            && cancelFrame > 0.0
+            {
+                CancelModule::enable_cancel(fighter.module_accessor);
+            }
         }
         else if ([
             *FIGHTER_STATUS_KIND_ATTACK_S3,
@@ -48,12 +58,15 @@ unsafe fn apply_buffs(fighter: &mut L2CFighterCommon)
             *FIGHTER_STATUS_KIND_ATTACK_DASH,
             *FIGHTER_STATUS_KIND_ATTACK_S4,
             *FIGHTER_STATUS_KIND_ATTACK_HI4,
-            *FIGHTER_STATUS_KIND_ATTACK_LW4
+            *FIGHTER_STATUS_KIND_ATTACK_LW4,
         ].contains(&status))
         {
             let mut cancelFrame = FighterMotionModuleImpl::get_cancel_frame(fighter.module_accessor,smash::phx::Hash40::new_raw(motion), false) as f32;
-            let turboFactor = 1.0-((lvl_turbo/(lvl_max))*0.75);
-            if (MotionModule::frame(fighter.module_accessor) >= cancelFrame*turboFactor)
+            let lastFrame = MotionModule::end_frame(fighter.module_accessor);
+
+            let turboFactor = 1.0-(0.75*lvl_turbo/(lvl_max));
+            let turboReduction = (cancelFrame*0.1)+(lvl_turbo*0.75);
+            if (MotionModule::frame(fighter.module_accessor) >= cancelFrame-turboReduction)
             && cancelFrame > 0.0
             {
                 CancelModule::enable_cancel(fighter.module_accessor);
@@ -64,12 +77,12 @@ unsafe fn apply_buffs(fighter: &mut L2CFighterCommon)
     if lvl_jump > 1.0
     {
         if StatusModule::status_kind(fighter.module_accessor) == *FIGHTER_STATUS_KIND_JUMP_AERIAL && MotionModule::frame(fighter.module_accessor) < 1.0 {
-            KineticModule::add_speed(fighter.module_accessor, &Vector3f{x: 0.0, y: 2.0*(lvl_jump/lvl_max), z: 0.0} as *const Vector3f);
+            KineticModule::add_speed(fighter.module_accessor, &Vector3f{x: 0.0, y: 1.75*(lvl_jump/lvl_max), z: 0.0} as *const Vector3f);
         }
         else if //StatusModule::prev_status_kind(fighter.module_accessor) == *FIGHTER_STATUS_KIND_JUMP_SQUAT && 
         StatusModule::status_kind(fighter.module_accessor) == *FIGHTER_STATUS_KIND_JUMP
         && MotionModule::frame(fighter.module_accessor) < 1.0 {
-            KineticModule::add_speed(fighter.module_accessor, &Vector3f{x: 0.0, y: 0.5*(lvl_jump/lvl_max), z: 0.0} as *const Vector3f);
+            KineticModule::add_speed(fighter.module_accessor, &Vector3f{x: 0.0, y: 0.75*(lvl_jump/lvl_max), z: 0.0} as *const Vector3f);
         }
         if StatusModule::situation_kind(fighter.module_accessor) == *SITUATION_KIND_AIR {
             let factor = if WorkModule::is_flag(fighter.module_accessor, *FIGHTER_STATUS_WORK_ID_FLAG_RESERVE_DIVE) {1.0} else {1.0-(lvl_jump/lvl_max)*0.9};
@@ -119,7 +132,7 @@ unsafe fn add_buff(fighter: &mut L2CFighterCommon, entry: usize, mut buff_type: 
     if buff_type == 100 {
         buff_type = app::sv_math::rand(hash40("fighter"), 37);
     }
-    let is_All = buff_type == 101;
+    let is_All = [*ITEM_VARIATION_TABEMONO_APPLE,*ITEM_VARIATION_TABEMONO_PEACH,*ITEM_VARIATION_TABEMONO_DAISY,101].contains(&buff_type);
     let is_Attack = [0,1,2,3,4,5,6].contains(&buff_type) && vars::LEVEL_ATTACK[entry] < vars::LEVEL_MAX;
     let is_Def = [7,8,9,10,11,12,13].contains(&buff_type) && vars::LEVEL_DEF[entry] < vars::LEVEL_MAX;
     let is_Speed = [14,15,16,17,18,19,20].contains(&buff_type) && vars::LEVEL_SPEED[entry] < vars::LEVEL_MAX;
@@ -140,14 +153,14 @@ unsafe fn add_buff(fighter: &mut L2CFighterCommon, entry: usize, mut buff_type: 
     //Def
     if is_Def || is_All
     {
-        eff_color.z=0.0;
+        eff = "sys_special_defense_up";
         vars::LEVEL_DEF[entry] = vars::LEVEL_MAX.min(vars::LEVEL_DEF[entry]+1);
         println!("Food type: {}, Def level: {}",buff_type,vars::LEVEL_DEF[entry]);
     }
     //Speed
     if is_Speed || is_All
     {
-        eff = "sys_special_defense_up";
+        eff_color.y=0.0;
         vars::LEVEL_SPEED[entry] = vars::LEVEL_MAX.min(vars::LEVEL_SPEED[entry]+1);
         println!("Food type: {}, Speed level: {}",buff_type,vars::LEVEL_SPEED[entry]);
     }
@@ -161,7 +174,8 @@ unsafe fn add_buff(fighter: &mut L2CFighterCommon, entry: usize, mut buff_type: 
     //Turbo
     if is_Turbo || is_All
     {
-        eff_color.y=0.0;
+        //eff = "sys_status_all_up";
+        eff_color.z=0.0;
         vars::LEVEL_TURBO[entry] = vars::LEVEL_MAX.min(vars::LEVEL_TURBO[entry]+1);
         println!("Food type: {}, Turbo level: {}",buff_type,vars::LEVEL_TURBO[entry]);
     }
@@ -210,6 +224,7 @@ unsafe fn check_for_buffs(fighter: &mut L2CFighterCommon)
     ) && 
     MotionModule::frame(fighter.module_accessor) < 7.0       
     {
+        /* 
         let write_text = format!("Main: {} Temp {} Extra {} Special {} Heart {}",
         ItemModule::get_have_item_kind(fighter.module_accessor,*FIGHTER_HAVE_ITEM_WORK_MAIN),
         ItemModule::get_have_item_kind(fighter.module_accessor,*FIGHTER_HAVE_ITEM_WORK_TEMPORARY),
@@ -218,9 +233,9 @@ unsafe fn check_for_buffs(fighter: &mut L2CFighterCommon)
          *ITEM_KIND_HEART);
         //std::fs::write("sd:/ultimate/mods/SmashRun/log.txt",write_text);
         //print(write_text); 
-        println!("{}",write_text);
+        println!("{}",write_text);*/
 
-        let mut buff_type = 0;
+        let mut buff_type = -1;
         if ((ItemModule::get_pickable_item_kind(fighter.module_accessor) as i32) == *ITEM_KIND_TABEMONO)
         || ItemModule::get_have_item_kind(fighter.module_accessor,*FIGHTER_HAVE_ITEM_WORK_MAIN) == *ITEM_KIND_TABEMONO
         {
@@ -228,6 +243,12 @@ unsafe fn check_for_buffs(fighter: &mut L2CFighterCommon)
             let item = get_battle_object_from_id(item_id as u32);
             let variant = WorkModule::get_int((*item).module_accessor, *ITEM_INSTANCE_WORK_INT_VARIATION);
             buff_type = variant;
+            if variant == *ITEM_VARIATION_TABEMONO_APPLE {
+                DamageModule::heal(fighter.module_accessor,-4.0,0);
+                PLAY_SE(fighter,Hash40::new("se_common_lifeup"));
+                ItemModule::remove_item(fighter.module_accessor,*FIGHTER_HAVE_ITEM_WORK_MAIN);
+                buff_type=-1;
+            }
         }
         //It's about to get YandereDev in here
         else if ItemModule::get_have_item_kind(fighter.module_accessor,*FIGHTER_HAVE_ITEM_WORK_MAIN) == *ITEM_KIND_MAXIMTOMATO
@@ -259,7 +280,7 @@ unsafe fn check_for_buffs(fighter: &mut L2CFighterCommon)
             buff_type = 28;
         }
         
-        if buff_type>0 {
+        if buff_type>=0 {
             add_buff(fighter,entry,buff_type);
         }
     }

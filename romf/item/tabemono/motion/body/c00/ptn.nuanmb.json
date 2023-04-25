@@ -1,0 +1,515 @@
+{
+  "major_version": 2,
+  "minor_version": 1,
+  "final_frame_index": 49.0,
+  "groups": [
+    {
+      "group_type": "Transform",
+      "nodes": [
+        {
+          "name": "Have",
+          "tracks": [
+            {
+              "name": "Transform",
+              "scale_options": {
+                "inherit_scale": true,
+                "compensate_scale": false
+              },
+              "values": {
+                "Transform": [
+                  {
+                    "scale": {
+                      "x": 1.0,
+                      "y": 1.0,
+                      "z": 1.0
+                    },
+                    "rotation": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    },
+                    "translation": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Have_BILLBOARD__O_OBJ_O_HIR",
+          "tracks": [
+            {
+              "name": "Transform",
+              "scale_options": {
+                "inherit_scale": true,
+                "compensate_scale": false
+              },
+              "values": {
+                "Transform": [
+                  {
+                    "scale": {
+                      "x": 1.0,
+                      "y": 1.0,
+                      "z": 1.0
+                    },
+                    "rotation": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    },
+                    "translation": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group_type": "Visibility",
+      "nodes": [
+        {
+          "name": "tabemono",
+          "tracks": [
+            {
+              "name": "Visibility",
+              "scale_options": {
+                "inherit_scale": false,
+                "compensate_scale": false
+              },
+              "values": {
+                "Boolean": [
+                  true
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group_type": "Material",
+      "nodes": [
+        {
+          "name": "tabemono_mt",
+          "tracks": [
+            {
+              "name": "CustomBoolean2",
+              "scale_options": {
+                "inherit_scale": false,
+                "compensate_scale": false
+              },
+              "values": {
+                "Boolean": [
+                  false
+                ]
+              }
+            },
+            {
+              "name": "CustomBoolean9",
+              "scale_options": {
+                "inherit_scale": false,
+                "compensate_scale": false
+              },
+              "values": {
+                "Boolean": [
+                  true
+                ]
+              }
+            },
+            {
+              "name": "CustomVector0",
+              "scale_options": {
+                "inherit_scale": false,
+                "compensate_scale": false
+              },
+              "values": {
+                "Vector4": [
+                  {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                  }
+                ]
+              }
+            },
+            {
+              "name": "CustomVector18",
+              "scale_options": {
+                "inherit_scale": false,
+                "compensate_scale": false
+              },
+              "values": {
+                "Vector4": [
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 1.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 1.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 1.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 1.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 1.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 1.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 1.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 2.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 2.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 2.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 2.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 2.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 2.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 2.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 3.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 3.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 3.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 3.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 3.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 3.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 3.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 4.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 4.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 4.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 4.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 4.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 27.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 4.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 5.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 5.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 5.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 5.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 5.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 5.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 5.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 5.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 36.999996,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 38.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 39.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 40.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 41.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 42.000004,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 43.000004,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 44.000004,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 45.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 46.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 47.000004,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 48.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 49.0,
+                    "w": 40.0
+                  },
+                  {
+                    "x": 8.0,
+                    "y": 5.0,
+                    "z": 50.0,
+                    "w": 40.0
+                  }
+                ]
+              }
+            },
+            {
+              "name": "CustomVector3",
+              "scale_options": {
+                "inherit_scale": false,
+                "compensate_scale": false
+              },
+              "values": {
+                "Vector4": [
+                  {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                  }
+                ]
+              }
+            },
+            {
+              "name": "CustomVector6",
+              "scale_options": {
+                "inherit_scale": false,
+                "compensate_scale": false
+              },
+              "values": {
+                "Vector4": [
+                  {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 0.0,
+                    "w": 0.0
+                  }
+                ]
+              }
+            },
+            {
+              "name": "CustomVector8",
+              "scale_options": {
+                "inherit_scale": false,
+                "compensate_scale": false
+              },
+              "values": {
+                "Vector4": [
+                  {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

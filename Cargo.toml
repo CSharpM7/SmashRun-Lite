@@ -1,6 +1,6 @@
 [package]
 name = "smashline_smashrun"
-version = "1.0.0"
+version = "0.5.0"
 authors = ["C# <@CSharpM7>"]
 edition = "2018"
 
