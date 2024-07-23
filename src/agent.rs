@@ -37,14 +37,14 @@ unsafe fn agent_start(fighter: &mut L2CFighterCommon)
     }
 }
 
-#[smashline::fighter_init]
-fn agent_init(fighter: &mut L2CFighterCommon) {
+//#[smashline::fighter_init]
+extern "C" fn agent_init(fighter: &mut L2CFighterCommon) {
     unsafe {
         agent_start(fighter);
     }
 }
-#[fighter_reset]
-fn agent_reset(fighter: &mut L2CFighterCommon) {
+//#[fighter_reset]
+extern "C" fn agent_reset(fighter: &mut L2CFighterCommon) {
     unsafe {
         if is_Results()
         || is_training_mode() {
@@ -54,10 +54,8 @@ fn agent_reset(fighter: &mut L2CFighterCommon) {
 }
 
 pub fn install() {
-    smashline::install_agent_init_callbacks!(
-        agent_init
-    );
-    install_agent_resets!(
-        agent_reset
-    );
+    Agent::new("fighter")
+        .on_start(agent_init)
+        .on_start(agent_reset)
+        .install();
 }

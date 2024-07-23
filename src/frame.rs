@@ -51,6 +51,7 @@ unsafe fn apply_buffs(fighter: &mut L2CFighterCommon)
             }
         }
         else if ([
+            *FIGHTER_STATUS_KIND_ATTACK_100,
             *FIGHTER_STATUS_KIND_ATTACK_S3,
             *FIGHTER_STATUS_KIND_ATTACK_HI3,
             *FIGHTER_STATUS_KIND_ATTACK_LW3,
@@ -76,25 +77,30 @@ unsafe fn apply_buffs(fighter: &mut L2CFighterCommon)
     }
     if lvl_jump > 1.0
     {
-        if StatusModule::status_kind(fighter.module_accessor) == *FIGHTER_STATUS_KIND_JUMP_AERIAL && MotionModule::frame(fighter.module_accessor) < 1.0 {
+        if [*FIGHTER_STATUS_KIND_JUMP_AERIAL, *FIGHTER_STATUS_KIND_FLY].contains(&StatusModule::status_kind(fighter.module_accessor)) && MotionModule::frame(fighter.module_accessor) < 1.0 {
             KineticModule::add_speed(fighter.module_accessor, &Vector3f{x: 0.0, y: 1.75*(lvl_jump/lvl_max), z: 0.0} as *const Vector3f);
         }
         else if //StatusModule::prev_status_kind(fighter.module_accessor) == *FIGHTER_STATUS_KIND_JUMP_SQUAT && 
         StatusModule::status_kind(fighter.module_accessor) == *FIGHTER_STATUS_KIND_JUMP
-        && MotionModule::frame(fighter.module_accessor) < 1.0 {
-            KineticModule::add_speed(fighter.module_accessor, &Vector3f{x: 0.0, y: 0.75*(lvl_jump/lvl_max), z: 0.0} as *const Vector3f);
+        && MotionModule::frame(fighter.module_accessor) < 5.0 {
+            let mut multiplier = 0.75;
+            if [Hash40::new("jump_f_mini").hash, Hash40::new("jump_b_mini").hash].contains(&motion) {
+                multiplier = 0.25;
+            }
+            KineticModule::add_speed(fighter.module_accessor, &Vector3f{x: 0.0, y: multiplier*(lvl_jump/lvl_max), z: 0.0} as *const Vector3f);
         }
         if StatusModule::situation_kind(fighter.module_accessor) == *SITUATION_KIND_AIR {
             let factor = if WorkModule::is_flag(fighter.module_accessor, *FIGHTER_STATUS_WORK_ID_FLAG_RESERVE_DIVE) {1.0} else {1.0-(lvl_jump/lvl_max)*0.9};
 
             //smash::app::lua_bind::FighterKineticEnergyGravity::set_gravity_coefficient(grav_energy,factor);
             //smash::app::lua_bind::FighterKineticEnergyGravity::set_accel(grav_energy,factor);
-            let lua_state = fighter.lua_state_agent;
+            /*let lua_state = fighter.lua_state_agent;
             acmd!(lua_state, {
                 sv_kinetic_energy::set_accel_y_mul(FIGHTER_KINETIC_ENERGY_ID_GRAVITY, factor)
                 //sv_kinetic_energy::set_stable_speed(FIGHTER_KINETIC_ENERGY_ID_CONTROL, 1611000.0)
                 //sv_kinetic_energy::friction_off()
-            });
+            });*/
+            sv_kinetic_energy!(set_accel_y_mul, fighter, FIGHTER_KINETIC_ENERGY_ID_GRAVITY, factor);
         }
     }
     if lvl_speed > 1.0
@@ -102,13 +108,14 @@ unsafe fn apply_buffs(fighter: &mut L2CFighterCommon)
         smash::app::lua_bind::FighterKineticEnergyMotion::set_speed_mul(kinetic_motion, 1.0+(lvl_speed/lvl_max));
         if StatusModule::situation_kind(fighter.module_accessor) == *SITUATION_KIND_AIR {
             //smash::app::lua_bind::FighterKineticEnergyController::mul_x_speed_max(control_energy, 1.0+(lvl_jump/lvl_max)*0.5);
-            let lua_state = fighter.lua_state_agent;
+            /*let lua_state = fighter.lua_state_agent;
             acmd!(lua_state, {
                 //sv_kinetic_energy::set_accel_x_add(FIGHTER_KINETIC_ENERGY_ID_CONTROL, 1.0*(lvl_jump/lvl_max))
                 sv_kinetic_energy::set_speed_mul(FIGHTER_KINETIC_ENERGY_ID_CONTROL, 1.0+(lvl_jump/lvl_max))
                 //sv_kinetic_energy::set_stable_speed(FIGHTER_KINETIC_ENERGY_ID_CONTROL, 1611000.0)
                 //sv_kinetic_energy::friction_off()
-            });
+            });*/
+            sv_kinetic_energy!(set_speed_mul, fighter, FIGHTER_KINETIC_ENERGY_ID_CONTROL, 1.0+(lvl_jump/lvl_max));
             //smash::app::lua_bind::FighterKineticEnergyMotion::set_speed_mul(kinetic_motion, 1.0+(lvl_jump/lvl_max)*0.5);
         }
     }
@@ -287,8 +294,8 @@ unsafe fn check_for_buffs(fighter: &mut L2CFighterCommon)
 }
 
 
-#[fighter_frame_callback]
-fn fighter_frame(fighter: &mut L2CFighterCommon) {
+//#[fighter_frame_callback]
+extern "C" fn fighter_frame(fighter: &mut L2CFighterCommon) {
     unsafe {
         check_for_buffs(fighter);
         apply_buffs(fighter);
@@ -297,7 +304,7 @@ fn fighter_frame(fighter: &mut L2CFighterCommon) {
 
 
 pub fn install() {
-    smashline::install_agent_frame_callbacks!(
-        fighter_frame
-    );
+    Agent::new("fighter")
+        .on_line(Main, fighter_frame)
+        .install();
 }

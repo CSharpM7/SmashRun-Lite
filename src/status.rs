@@ -138,8 +138,8 @@ pub unsafe fn fighter_pickup_light_end(fighter: &mut L2CFighterCommon) -> L2CVal
     return false.into();
 }
 */
-#[smashline::common_status_script(status = FIGHTER_STATUS_KIND_DEAD, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
-pub unsafe fn fighter_dead(fighter: &mut L2CFighterCommon) -> L2CValue {
+//#[smashline::common_status_script(status = FIGHTER_STATUS_KIND_DEAD, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
+pub unsafe extern "C" fn fighter_dead(fighter: &mut L2CFighterCommon) -> L2CValue {
     let entry = get_entry_from_boma(fighter.module_accessor) as usize;
     let levelLoss = vars::LEVEL_MAX/3;
     vars::SPIRIT_TYPE[entry] = -1;
@@ -154,9 +154,7 @@ pub unsafe fn fighter_dead(fighter: &mut L2CFighterCommon) -> L2CValue {
 }
 
 pub fn install() {
-    install_status_scripts!(
-        //fighter_pickup_light,
-        //fighter_pickup_light_end,
-        fighter_dead
-    );
+    Agent::new("fighter")
+        .status(Pre, *FIGHTER_STATUS_KIND_DEAD, fighter_dead)
+        .install();
 }
